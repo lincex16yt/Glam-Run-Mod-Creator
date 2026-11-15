@@ -1,0 +1,254 @@
+<!doctype html><html lang="it"><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Glam Run · Creatore di Mod</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:600 15px system-ui,sans-serif;background:#3a74f5;color:#1e2a6b;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+h1{margin:0;padding:14px 10px 8px;color:#fff;text-align:center;font-size:22px;text-shadow:0 3px 0 rgba(0,0,40,.35)}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:4px 10px 10px;max-width:780px;margin:auto}
+nav button{flex:none;border:3px solid #1e2a6b;background:#fff;color:#1e2a6b;border-radius:20px;padding:6px 11px;font:inherit;box-shadow:0 3px 0 rgba(0,0,40,.35)}
+nav button.on{background:#ffc928}
+main{max-width:760px;margin:0 10px 24px;background:#eef3ff;border:3px solid #1e2a6b;border-radius:18px;padding:14px;box-shadow:0 6px 0 rgba(0,0,40,.35)}
+@media(min-width:800px){main{margin:0 auto 24px}}
+label{display:block;margin:10px 0 4px;font-size:13px}
+input,select,button{font:inherit;color:inherit}
+input[type=text],input[type=number],select{width:100%;padding:8px;border:2px solid #1e2a6b;border-radius:10px;background:#fff}
+input[type=color]{width:52px;height:38px;padding:0;border:2px solid #1e2a6b;border-radius:10px;background:#fff}
+button.b{border:3px solid #1e2a6b;background:#ffc928;border-radius:12px;padding:9px 14px;box-shadow:0 3px 0 rgba(0,0,40,.35);margin:6px 6px 0 0}
+button.g{background:#fff}button:disabled{opacity:.4}
+.r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.r img{height:44px;max-width:90px;object-fit:contain;background:#dbe4ff;border-radius:8px}
+.n{font-size:13px;font-weight:500;margin:6px 0}
+.fr{display:grid;grid-template-columns:22px repeat(5,1fr) 34px;gap:4px;margin:4px 0;align-items:center}
+.fr input{padding:5px;min-width:0}
+canvas{max-width:100%;background:repeating-conic-gradient(#dbe4ff 0 25%,#fff 0 50%) 0 0/16px 16px;border-radius:10px}
+.e{color:#b00020}.ok{color:#0a7a2f}h3{margin:16px 0 4px;font-size:16px}
+#ed{position:fixed;inset:0;background:rgba(0,0,40,.6);overflow:auto;padding:12px;z-index:9}#ed .bx{max-width:560px;margin:0 auto;background:#eef3ff;border:3px solid #1e2a6b;border-radius:18px;padding:14px}#ed canvas{max-height:40vh;display:block;margin:auto}#ed input[type=range]{width:100%}.q{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.sw{display:inline-block;min-width:44px;height:26px;border:2px solid #1e2a6b;border-radius:8px;text-align:center;line-height:22px;font-size:12px;background:#fff}#ed details{margin:8px 0;border:2px solid #1e2a6b;border-radius:12px;background:#fff;padding:2px 10px}#ed summary{padding:8px 0;font-weight:700}#ed .pvw{position:sticky;top:-12px;background:#eef3ff;z-index:2;padding:4px 0}#ed .pvw canvas{max-height:30vh}#ed .sb{position:sticky;bottom:-12px;background:#eef3ff;padding:6px 0;z-index:2}
+</style></head><body>
+<h1>Glam Run · Creatore di Mod</h1><nav id="nv"></nav><main id="mn"></main><div id="ed" hidden></div>
+<script>
+const $=s=>document.querySelector(s),AN={idle:'Fermo',run:'Corsa',jump:'Salto',fall:'Caduta',slide:'Scivolata',land:'Atterraggio',hurt:'Colpito',win:'Vittoria',dance:'Ballo (più frame)'},AU={music:'Musica',jump:'Salto',jump2:'Doppio salto',coin:'Moneta',hurt:'Colpito',bhit:'Il boss ti colpisce',slide:'Scivolata',fall:'Caduta',stomp:'Schiacciata',win:'Vittoria',lose:'Sconfitta',land:'Atterraggio'},EN={w:'W · cammina',a:'A · cammina lento',h:'H · salta',f:'F · vola',t:'T · fermo'};
+const B0=`Gran Paparazzo|#9aa6d8|#5b6bd6|4|3|250|226|80|0|.5
+Regina Gelosia|#5fd36b|#2f9a3f|4|4|272|240|100|0|.5
+Robo-Stilista|#c3cbe0|#5a6382|5|4|290|256|120|0|.5
+Spettro del Red Carpet|#d9c2ff|#7a4fd6|5|4|306|270|140|0|.5
+Drago Glitter|#ff7a3b|#c4421a|6|5|322|284|160|0|.5
+Kraken Paillettes|#ff7ac8|#b02a86|6|5|334|292|180|0|.5
+Mister Critico|#2d2f6b|#14163f|6|5|346|300|200|0|.5
+Fenice Dorata|#ffb02e|#c2410c|7|5|358|306|230|1|.5
+Re Arcobaleno|#ff6fd0|#7a2fb0|9|6|372|316|340|1|.5
+Mecha Paparazzo|#e9ecff|#8d99ff|7|6|366|312|220|1|.48
+Fantasma Gelosia|#ff6f91|#a8164b|7|6|372|316|240|1|.47
+Polpo Abissale|#3fa7ff|#143f8a|8|6|378|320|260|1|.46
+Critico Spietato|#c2103a|#4a0010|8|6|384|326|280|1|.45
+Drago Cremisi|#e0143c|#7a0a1e|9|7|390|330|300|1|.44
+Fenice Nera|#5a5a7a|#111118|9|7|394|334|320|2|.43
+Gelosia Glaciale|#8be0ff|#2f7fb8|10|7|398|338|340|2|.42
+Robo-Imperatore|#ffd54a|#8a5a00|10|7|402|342|360|2|.41
+Kraken Cosmico|#7a5cff|#2a1a8a|11|7|406|346|380|2|.4
+Regina Suprema del Glam|#ff2fb4|#ffe066|14|8|412|352|600|2|.38
+Regina della Notte|#7a3bff|#150633|12|8|410|350|900|1|.4
+Giorgio|#7a4bff|#2a1670|18|8|432|372|2500|0|.36`.split('\n').map(l=>{const a=l.split('|');return{n:a[0],c:[a[1],a[2]],hp:+a[3],per:+a[4],vs:+a[5],cs:+a[6],rw:+a[7],fx:+a[8],km:+a[9]}});
+const BF=[['hp','Vita (colpi)',1,40,1],['per','Attacchi (per)',1,20,1],['vs','Velocità (vs)',150,600,0],['cs','Velocità carica (cs)',150,600,0],['rw','Premio monete',0,99999,1],['hit','Monete per colpo',0,999,1],['km','km (0,2–1)',.2,1,0],['fx','Aura (0–2)',0,2,1]];
+const IMGOK=u=>/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(u),AUOK=u=>u.length<1.5e7&&/^data:audio\/(mpeg|mp3|ogg|wav|x-wav|webm|mp4|aac);base64,[A-Za-z0-9+\/=]+$/.test(u),HX=/^#[0-9a-fA-F]{6}$/;
+const blank=()=>({name:'',version:'mod.001',atlas:'',big:'',logo:'',avatar:'',frames:[],anim:{},scale:'',bax:'',hide:0,audio:{},coin:{},bosses:{},enemies:{}});
+let M=blank(),tab='info',bi=0,ti=0,IMG={};
+const get=p=>p.split('.').reduce((o,k)=>o==null?o:o[k],M);
+function set(p,v){const a=p.split('.'),k=a.pop();let o=M;for(const x of a)o=o[x]||(o[x]={});if(v===''||v==null){if(p[0]=='f')o[k]=0;else delete o[k]}else o[k]=v}
+const MT={mp3:'audio/mpeg',mpeg:'audio/mpeg',m4a:'audio/mp4',mp4:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',oga:'audio/ogg',webm:'audio/webm'};
+const rd=f=>new Promise(r=>{const x=new FileReader;x.onload=()=>{const u=String(x.result),m=MT[(f.name.split('.').pop()||'').toLowerCase()];r(m?'data:'+m+';base64,'+u.slice(u.indexOf(',')+1):u)};x.readAsDataURL(f)});
+async function toWav(f,mx){const AC=window.AudioContext||window.webkitAudioContext,OC=window.OfflineAudioContext||window.webkitOfflineAudioContext,ac=new AC(),buf=await f.arrayBuffer(),b=await new Promise((ok,no)=>{const p=ac.decodeAudioData(buf,ok,no);if(p&&p.catch)p.catch(no)});if(ac.close)ac.close();
+const rt=22050,n=Math.max(1,Math.min(Math.ceil(b.duration*rt),rt*mx)),oc=new OC(1,n,rt),s=oc.createBufferSource();s.buffer=b;s.connect(oc.destination);s.start();
+const r=await new Promise((ok,no)=>{const p=oc.startRendering();if(p&&p.then)p.then(ok,no);else oc.oncomplete=e=>ok(e.renderedBuffer)}),d=r.getChannelData(0),w=new DataView(new ArrayBuffer(44+d.length*2)),W=(o,t)=>{for(let i=0;i<t.length;i++)w.setUint8(o+i,t.charCodeAt(i))};
+W(0,'RIFF');w.setUint32(4,36+d.length*2,true);W(8,'WAVEfmt ');w.setUint32(16,16,true);w.setUint16(20,1,true);w.setUint16(22,1,true);w.setUint32(24,rt,true);w.setUint32(28,rt*2,true);w.setUint16(32,2,true);w.setUint16(34,16,true);W(36,'data');w.setUint32(40,d.length*2,true);
+for(let i=0;i<d.length;i++)w.setInt16(44+i*2,Math.max(-1,Math.min(1,d[i]))*32767,true);
+return rd(Object.assign(new Blob([w.buffer]),{name:'a.wav'}))}
+const im=u=>u?IMG[u]||(IMG[u]=Object.assign(new Image,{src:u})):null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';'),pa=s=>String(s==null?'':s).split(/[\s,;]+/).filter(Boolean).map(Number);
+const tx=(l,p,ph='',ml=99)=>`<label>${l}<input type="text" data-p="${p}" value="${esc(get(p)||'')}" placeholder="${esc(ph)}" maxlength="${ml}"></label>`;
+const nu=(l,p,mn,mx,int,ph='')=>`<label>${l}<input type="number" data-p="${p}" min="${mn}" max="${mx}" step="${int?1:'any'}" value="${get(p)??''}" placeholder="${ph}"></label>`;
+const co=(l,p,d)=>`<label>${l}<br><input type="color" data-p="${p}" value="${get(p)||d}"></label>`;
+const ig=(l,p,au)=>{const u=get(p);return`<label>${l}</label><div class="r">${u&&!au?`<img src="${u}">`:''}${u&&au?'<span class="ok">✓ caricato</span>':''}${u&&au?`<button class="b" data-a="eda" data-p="${p}">Modifica</button>`:''}<input type="file" accept="${au?'audio/*,video/*,.mp3,.m4a,.aac,.wav,.ogg,.mov,.mp4':'image/png,image/jpeg,image/webp,image/gif'}" data-i="${p}" data-au="${au?1:''}">${u&&!au?`<button class="b" data-a="ed" data-p="${p}">Modifica</button>`:''}${u?`<button class="b g" data-x="${p}">Rimuovi</button>`:''}</div>`};
+const TB={
+info:()=>tx('Nome della mod','name','es. Super Glam Run',40)+tx('Versione','version','mod.001',20)+`<p class="n">Una mod può contenere la skin dell’eroe, i boss, le monete e i nemici: basta personalizzare anche una sola cosa. Scarica il file dalla scheda Esporta e caricalo nel gioco con il tasto Mod.</p><label>Modifica una mod esistente (file .html)</label><input type="file" accept=".html,text/html" id="imp">`,
+hero:()=>`<p class="n">Carica lo spritesheet con le pose (PNG trasparente), rileva i frame e assegna le animazioni.</p>`+ig('Atlante (pose)','atlas')+ig('Immagine grande (menu)','big')+ig('Logo (facoltativo)','logo')+ig('Avatar (facoltativo)','avatar')+nu('Scala eroe (0,2–1,5)','scale',.2,1.5,0,'0.52')+nu('Ancora immagine grande (bax)','bax','','',0,'32.5')+`<label><input type="checkbox" data-p="hide" ${M.hide?'checked':''}> Nascondi il negozio skin</label><h3>Frame</h3><div><button class="b" data-a="det">Rileva sprite</button><button class="b g" data-a="grid">Dividi in griglia</button><button class="b g" data-a="addf">+ Frame</button><button class="b g" data-a="mf">Atlante da più foto</button><input type="file" id="mf" accept="image/*" multiple hidden></div><canvas id="ov"></canvas><p class="n">x · y · larghezza · altezza · ancora X (centro tra le gambe)</p>`+M.frames.map((f,i)=>`<div class="fr"><b>${i}</b>${f.map((v,j)=>`<input type="number" data-p="frames.${i}.${j}" value="${v}">`).join('')}<button class="b g" data-a="delf" data-n="${i}" style="margin:0;padding:2px">✕</button></div>`).join('')+`<h3>Animazioni</h3><p class="n">Indici dei frame separati da virgola (es. 8,9,10). “Fermo” è obbligatorio.</p>`+Object.keys(AN).map(k=>tx(AN[k],'anim.'+k,k=='idle'?'0':'')).join('')+`<label>Anteprima</label><select id="pa">${Object.keys(AN).map(k=>`<option value="${k}">${AN[k]}</option>`).join('')}</select><canvas id="pv" width="200" height="180"></canvas><h3>Suoni (facoltativi)</h3>`+Object.keys(AU).map(k=>ig(AU[k],'audio.'+k,1)).join(''),
+coin:()=>nu('Valore delle monete (1–10)','coin.v',1,10,1,'1')+`<div class="r">`+co('Colore','coin.f','#ffc928')+co('Bordo','coin.s','#1e2a6b')+co('Luce','coin.h','#fff3a0')+`</div>`+ig('Immagine moneta','coin.img'),
+boss:()=>{const b=B0[bi],p=`bosses.${bi}.`;return`<label>Boss</label><select id="bs">${B0.map((x,i)=>`<option value="${i}" ${i==bi?'selected':''}>${i+1}. ${esc(get('bosses.'+i+'.n')||x.n)}</option>`).join('')}</select>`+tx('Nome',p+'n',b.n,30)+`<label>Colori</label><div class="r cc" data-p="${p}c">`+[0,1].map(k=>`<input type="color" value="${(get(p+'c')||b.c)[k]}">`).join('')+`</div>`+BF.map(f=>nu(f[1],p+f[0],f[2],f[3],f[4],f[0]=='hit'?'0':String(b[f[0]]))).join('')+ig('Immagine boss',p+'img')+ig('Suono quando questo boss ti colpisce',p+'snd',1)+`<button class="b g" data-a="rb">Ripristina questo boss</button><h3>Per tutti i boss</h3><div class="r"><input type="number" id="bm" value="1.5" step="0.1" style="width:90px"><button class="b" data-a="bm">Premi ×</button><input type="number" id="bh" value="8" style="width:90px"><button class="b" data-a="bh">Monete per colpo</button></div>`},
+nem:()=>`<p class="n">Immagine per ogni tipo di nemico (PNG trasparente).</p>`+Object.keys(EN).map(k=>ig('Nemico '+EN[k],`enemies.${k}.img`)).join(''),
+out:()=>{const{e,sz}=build();return(e.length?`<p class="e">${e.map(esc).join('<br>')}</p>`:`<p class="ok">✓ Mod valida · ${(sz/1e6).toFixed(2)} MB</p>`)+`<p class="n">Limite 20 MB: serve il gioco aggiornato (index.html modificato).</p><button class="b" data-a="dl" ${e.length?'disabled':''}>Scarica la mod (.html)</button>`}};
+function build(){const e=[],m={name:(M.name||'').trim(),version:(M.version||'').trim()};
+if(!m.name||m.name.length>40)e.push('Nome mancante o oltre 40 caratteri');
+if(!m.version||m.version.length>20)e.push('Versione mancante o oltre 20 caratteri');
+if(M.atlas||M.big){if(!M.atlas||!M.big)e.push('Skin eroe: servono sia l’atlante sia l’immagine grande');
+m.atlas=M.atlas;m.big=M.big;if(M.logo)m.logo=M.logo;if(M.avatar)m.avatar=M.avatar;
+const F=M.frames.map(f=>f.map(Number));m.frames={f:F};
+if(!F.length||F.length>256||!F.every(a=>a.length==5&&a.every(Number.isFinite)))e.push('Frame non validi (da 1 a 256, cinque numeri ciascuno)');
+const A={};for(const k in AN){const t=pa(M.anim[k]);if(!t.length)continue;if(!t.every(v=>Number.isInteger(v)&&v>=0&&v<F.length))e.push('Animazione non valida: '+AN[k]);A[k]=t.length>1?t:t[0]}
+if(A.idle==null)e.push('Serve l’animazione “Fermo”');m.anim=A;
+if(M.scale!==''&&M.scale!=null){if(!(M.scale>=.2&&M.scale<=1.5))e.push('Scala fuori dal range 0,2–1,5');m.scale=+M.scale}
+if(M.bax!==''&&M.bax!=null)m.bax=+M.bax;if(M.hide)m.skinShop=false;
+const au={};for(const k in AU)if(M.audio[k]){if(!AUOK(M.audio[k]))e.push('Audio non valido: '+AU[k]);au[k]=M.audio[k]}if(Object.keys(au).length)m.audio=au}
+const c={};for(const k of['v','f','s','h','img'])if(M.coin[k]!=null&&M.coin[k]!=='')c[k]=M.coin[k];
+if(c.v!=null&&!(Number.isInteger(c.v)&&c.v>=1&&c.v<=10))e.push('Valore monete: intero da 1 a 10');
+for(const k of['f','s','h'])if(c[k]&&!HX.test(c[k]))e.push('Colore moneta non valido');
+if(Object.keys(c).length)m.coin=c;
+const bb={};for(const k in M.bosses){const o={};for(const f in M.bosses[k])if(M.bosses[k][f]!==''&&M.bosses[k][f]!=null)o[f]=M.bosses[k][f];if(!Object.keys(o).length)continue;const nm=B0[k].n;
+if(o.n!=null&&!(o.n.length>0&&o.n.length<=30))e.push('Nome boss non valido: '+nm);
+if(o.c&&!(o.c.length==2&&o.c.every(x=>HX.test(x))))e.push('Colori boss non validi: '+nm);
+if(o.snd&&!AUOK(o.snd))e.push('Audio boss non valido: '+nm);for(const f of BF)if(o[f[0]]!=null){const v=o[f[0]];if(!(Number.isFinite(v)&&v>=f[2]&&v<=f[3]&&(!f[4]||Number.isInteger(v))))e.push(nm+': '+f[1]+' fuori dai limiti ('+f[2]+'–'+f[3]+')')}bb[k]=o}
+if(Object.keys(bb).length)m.bosses=bb;
+const ee={};for(const k in EN)if(M.enemies[k]&&M.enemies[k].img)ee[k]={img:M.enemies[k].img};if(Object.keys(ee).length)m.enemies=ee;
+if(!m.atlas&&!m.coin&&!m.bosses&&!m.enemies)e.push('La mod non contiene nulla: personalizza almeno una scheda');
+const j=JSON.stringify(m).replace(/</g,'\\u003c'),t=esc(m.name),I=(u,c)=>u?`<img class="${c}" src="${u}" alt="">`:'';
+const html=`<!doctype html><html lang="it"><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title><style>body{margin:0;padding:24px;font:600 16px system-ui,sans-serif;background:#3a74f5;color:#fff;text-align:center}img{max-width:min(90vw,360px);height:auto}.c{max-width:420px;margin:auto}.s{height:110px;margin:6px;width:auto}</style></head><body><div class="c">${I(m.logo,'')}${I(m.big,'s')}<h2>${t} · ${esc(m.version)}</h2><p>Questo è un file mod per Glam Run.<br>Aprilo dal gioco con il tasto <b>Mod</b> (in alto a sinistra nel menu) e scegli questo file.</p>${I(m.coin&&m.coin.img,'s')}</div><script type="application/json" id="glam-mod">${j}<\/script></body></html>`;
+if(html.length>2e7)e.push('File oltre 20 MB: usa immagini o audio più piccoli');
+return{m,e,html,sz:html.length}}
+function ovl(){const c=$('#ov'),I=im(M.atlas);if(!c||!I)return;const go=()=>{c.width=I.width;c.height=I.height;const x=c.getContext('2d'),s=Math.max(10,I.width/30);x.drawImage(I,0,0);x.lineWidth=Math.max(1,I.width/400);x.font=s+'px system-ui';M.frames.forEach((f,i)=>{x.strokeStyle=x.fillStyle='#ff2850';x.strokeRect(f[0],f[1],f[2],f[3]);x.fillText(i,f[0]+2,f[1]+s);x.strokeStyle='#18a058';x.beginPath();x.moveTo(+f[0]+ +f[4],f[1]);x.lineTo(+f[0]+ +f[4],+f[1]+ +f[3]);x.stroke()})};I.complete?go():I.onload=go}
+function draw(){$('#nv').innerHTML=[['info','Info'],['hero','Eroe'],['coin','Monete'],['boss','Boss'],['nem','Nemici'],['out','Esporta']].map(t=>`<button data-t="${t[0]}" class="${t[0]==tab?'on':''}">${t[1]}</button>`).join('');$('#mn').innerHTML=TB[tab]();ovl()}
+const ACT={
+det(){const I=im(M.atlas);if(!I||!I.complete)return alert('Carica prima l’atlante');const c=document.createElement('canvas'),w=c.width=I.width,h=c.height=I.height,x=c.getContext('2d');x.drawImage(I,0,0);const d=x.getImageData(0,0,w,h).data,col=[],F=[];
+for(let i=0;i<w;i++){let a=0;for(let j=0;j<h&&!a;j++)a=d[(j*w+i)*4+3]>16?1:0;col.push(a)}
+let s=-1;for(let i=0;i<=w;i++){if(col[i]&&s<0)s=i;if(!col[i]&&s>=0){let y0=h,y1=0;for(let u=s;u<i;u++)for(let j=0;j<h;j++)if(d[(j*w+u)*4+3]>16){y0=Math.min(y0,j);y1=Math.max(y1,j)}F.push([s,y0,i-s,y1-y0+1,(i-s)/2]);s=-1}}
+if(!F.length)return alert('Nessuno sprite trovato: serve uno sfondo trasparente');M.frames=F;if(!M.anim.idle)M.anim.idle='0';draw()},
+grid(){const I=im(M.atlas);if(!I||!I.complete)return alert('Carica prima l’atlante');const n=+prompt('Quanti frame in orizzontale?','4');if(!(n>0))return;const w=I.width/n|0;M.frames=Array.from({length:n},(_,i)=>[i*w,0,w,I.height,w/2]);if(!M.anim.idle)M.anim.idle='0';draw()},
+addf(){M.frames.push([0,0,100,150,50]);draw()},
+ed(b){ed(b.dataset.p)},
+delf(b){M.frames.splice(+b.dataset.n,1);draw()},
+rb(){delete M.bosses[bi];draw()},
+bm(){const k=+$('#bm').value||1;B0.forEach((b,i)=>set(`bosses.${i}.rw`,Math.min(99999,Math.round(b.rw*k))));draw()},
+bh(){const k=Math.max(0,Math.min(999,+$('#bh').value|0));B0.forEach((_,i)=>set(`bosses.${i}.hit`,k));draw()},
+async dl(){const{e,html}=build();if(e.length)return;const fn='mod_'+(M.version||'glam').replace(/[^\w.-]+/g,'_')+'.html';
+try{const d=window.claude?await window.claude.use('downloads'):null;if(d){await d.save({filename:fn,data:html});return}}catch(er){if(er&&er.code=='declined')return}
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=fn;a.click()}};
+const mn=$('#mn');
+$('#nv').onclick=e=>{const t=e.target.dataset.t;if(t){tab=t;draw()}};
+mn.oninput=e=>{const t=e.target,cc=t.closest('.cc');if(cc)return set(cc.dataset.p,[...cc.querySelectorAll('input')].map(x=>x.value));const p=t.dataset.p;if(!p)return;let v=t.type=='checkbox'?+t.checked:t.value;if(t.type=='number'&&v!=='')v=+v;set(p,v);if(p[0]=='f')ovl()};
+mn.onchange=async e=>{const t=e.target;if(t.id=='bs'){bi=+t.value;draw()}
+else if(t.id=='imp'&&t.files[0]){try{const d=new DOMParser().parseFromString(await t.files[0].text(),'text/html'),s=d.querySelector('script#glam-mod');if(!s)return alert('Questo file non è una mod');const m=JSON.parse(s.textContent);
+M=Object.assign(blank(),{name:m.name||'',version:m.version||'mod.001',atlas:m.atlas||'',big:m.big||'',logo:m.logo||'',avatar:m.avatar||'',frames:((m.frames&&m.frames.f)||[]).map(a=>[...a]),anim:Object.fromEntries(Object.entries(m.anim||{}).map(([k,v])=>[k,[].concat(v).join(',')])),scale:m.scale??'',bax:m.bax??'',hide:m.skinShop===false?1:0,audio:m.audio||{},coin:m.coin||{},bosses:m.bosses||{},enemies:m.enemies||{}});draw()}catch(er){alert('Mod non leggibile')}}
+else if(t.dataset.i&&t.files[0]){const fl=t.files[0],au=t.dataset.au,mx=t.dataset.i=='audio.music'?180:30,vd=au&&(/^video\//.test(fl.type)||/\.(mov|mp4|m4v|webm|mkv|avi|3gp)$/i.test(fl.name));let u;t.style.opacity=.5;
+try{u=vd?await toWav(fl,mx):await rd(fl);if(au&&!vd&&!AUOK(u)&&u.length<1.5e7)u=await toWav(fl,mx)}catch(er){t.style.opacity=1;return alert(au?'Non riesco a leggere l’audio di questo file. Prova con un MP3 o un video più corto.':'Immagine non leggibile')}t.style.opacity=1;if(au?!AUOK(u):!IMGOK(u))return alert(au?(u.length>=1.5e7?'Audio troppo grande: massimo circa 11 MB di file':'Formato audio non supportato (usa MP3, OGG, WAV, AAC o M4A)'):'Usa un’immagine PNG, JPG, WEBP o GIF');set(t.dataset.i,u);draw()}};
+mn.onclick=e=>{const b=e.target.closest('button'),d=b&&b.dataset;if(!d)return;if(d.x!=null){set(d.x,'');draw()}else if(d.a)ACT[d.a](b)};
+setInterval(()=>{ti++;const c=$('#pv');if(!c)return;const x=c.getContext('2d'),I=im(M.atlas);x.clearRect(0,0,c.width,c.height);if(!I||!I.complete)return;const t=pa(M.anim[$('#pa').value]),f=M.frames[t[ti%t.length||0]];if(!t.length||!f)return;const s=Math.min(1,150/f[3]);x.drawImage(I,f[0],f[1],f[2],f[3],c.width/2-f[4]*s,c.height-10-f[3]*s,f[2]*s,f[3]*s)},150);
+let EP=null,ES=null,WS=null,KC=null,TM='pv',EM='i',LC=null,ST=0,RQ=0,DR=0,LP=null,ORIG={},AB=null,AX=null,APL=null;
+const cv=(w,h)=>Object.assign(document.createElement('canvas'),{width:w,height:h}),E=$('#ed');
+const rg=(l,id,v,mn,mx,st)=>`<label>${l}: <b id='${id}v'>${v}</b><input type='range' id='${id}' value='${v}' min='${mn}' max='${mx}' step='${st||1}'></label>`,
+ck=(l,id,k)=>`<label><input type='checkbox' id='${id}' ${k?'checked':''}> ${l}</label>`,
+nb=(l,id,v)=>`<label>${l}<input type='number' id='${id}' value='${v}' min='0'></label>`;
+const li=f=>new Promise((ok,no)=>{const u=URL.createObjectURL(f),i=new Image;i.onload=()=>{URL.revokeObjectURL(u);ok(i)};i.onerror=no;i.src=u});
+/* ---------- elaborazione immagini ---------- */
+function rmbg(c,tol,all,key){const w=c.width,h=c.height,x=c.getContext('2d'),I=x.getImageData(0,0,w,h),d=I.data;let R=0,G=0,B=0,N=0;
+if(key){R=key[0];G=key[1];B=key[2]}else{for(const[px,py]of[[0,0],[w-1,0],[0,h-1],[w-1,h-1]]){const i=(py*w+px)*4;if(d[i+3]>16){R+=d[i];G+=d[i+1];B+=d[i+2];N++}}if(!N)return;R/=N;G/=N;B/=N}
+const m=i=>d[i+3]<16||Math.hypot(d[i]-R,d[i+1]-G,d[i+2]-B)<=tol;
+const ds=i=>Math.hypot(d[i]-R,d[i+1]-G,d[i+2]-B),sf=i=>{const e=ds(i);if(tol>0&&e<=tol*1.8)d[i+3]=Math.min(d[i+3],255*(e-tol)/(tol*.8)|0)};if(all){for(let i=0;i<d.length;i+=4){if(m(i))d[i+3]=0;else sf(i)}}
+else{const q=[],v=new Uint8Array(w*h),pu=(px,py)=>{const k=py*w+px;if(!v[k]&&m(k*4)){v[k]=1;q.push(k)}};
+for(let i=0;i<w;i++){pu(i,0);pu(i,h-1)}for(let j=0;j<h;j++){pu(0,j);pu(w-1,j)}
+while(q.length){const k=q.pop(),px=k%w,py=k/w|0;if(px>0)pu(px-1,py);if(px<w-1)pu(px+1,py);if(py>0)pu(px,py-1);if(py<h-1)pu(px,py+1)}
+for(let k=0;k<v.length;k++)if(v[k])d[k*4+3]=0;for(let k=0;k<v.length;k++){if(v[k])continue;const px=k%w,py=k/w|0;if(px>0&&v[k-1]||px<w-1&&v[k+1]||py>0&&v[k-w]||py<h-1&&v[k+w])sf(k*4)}}x.putImageData(I,0,0)}
+function alphaOp(c,fn){const w=c.width,h=c.height,x=c.getContext('2d',{willReadFrequently:true}),I=x.getImageData(0,0,w,h);fn(I.data,w,h);x.putImageData(I,0,0)}
+/* restringe il bordo: toglie gli aloni rimasti dopo la rimozione dello sfondo */
+function erode(c,r){alphaOp(c,(d,w,h)=>{for(let k=0;k<r;k++){const a=new Uint8Array(w*h);for(let i=0;i<w*h;i++)a[i]=d[i*4+3];for(let j=0;j<h;j++)for(let i=0;i<w;i++){const p=j*w+i;let m=a[p];if(m){if(i>0&&a[p-1]<m)m=a[p-1];if(i<w-1&&a[p+1]<m)m=a[p+1];if(j>0&&a[p-w]<m)m=a[p-w];if(j<h-1&&a[p+w]<m)m=a[p+w];d[p*4+3]=m}}}})}
+/* ammorbidisce il bordo verso l'interno (niente aloni scuri) */
+function soft(c,r){alphaOp(c,(d,w,h)=>{for(let k=0;k<r;k++){const a=new Uint8Array(w*h);for(let i=0;i<w*h;i++)a[i]=d[i*4+3];for(let j=0;j<h;j++)for(let i=0;i<w;i++){const p=j*w+i;if(!a[p])continue;let s=0,n=0;for(let dy=-1;dy<=1;dy++){const jj=j+dy;if(jj<0||jj>=h)continue;for(let dx=-1;dx<=1;dx++){const ii=i+dx;if(ii<0||ii>=w)continue;s+=a[jj*w+ii];n++}}d[p*4+3]=Math.min(a[p],s/n)}}})}
+/* elimina le macchie isolate più piccole di frac × il pezzo più grande */
+function keepMain(c,frac){alphaOp(c,(d,w,h)=>{const lab=new Int32Array(w*h),sz=[0],st=[];let n=0;for(let s=0;s<w*h;s++){if(lab[s]||d[s*4+3]<=16)continue;n++;let cnt=0;st.push(s);lab[s]=n;while(st.length){const k=st.pop();cnt++;const px=k%w,py=(k/w)|0,t=q=>{if(!lab[q]&&d[q*4+3]>16){lab[q]=n;st.push(q)}};if(px>0)t(k-1);if(px<w-1)t(k+1);if(py>0)t(k-w);if(py<h-1)t(k+w)}sz.push(cnt)}
+let mx=0;for(let i=1;i<sz.length;i++)if(sz[i]>mx)mx=sz[i];for(let k=0;k<w*h;k++){const l=lab[k];if(l&&sz[l]<mx*frac)d[k*4+3]=0}})}
+/* luminosità, contrasto, saturazione, nitidezza */
+function filt(c,b,k,s,sh){if(!b&&!k&&s==100&&!sh)return;alphaOp(c,(d,w,h)=>{const C=k*2.55,f=259*(C+255)/(255*(259-C)),B=b*2.55;
+for(let p=0;p<w*h;p++){const i=p*4;if(!d[i+3])continue;let r=d[i],g=d[i+1],bl=d[i+2];
+if(s!=100){const y=.299*r+.587*g+.114*bl;r=y+(r-y)*s/100;g=y+(g-y)*s/100;bl=y+(bl-y)*s/100}
+if(k){r=f*(r-128)+128;g=f*(g-128)+128;bl=f*(bl-128)+128}
+d[i]=r+B;d[i+1]=g+B;d[i+2]=bl+B}
+if(sh){const o=new Uint8ClampedArray(d),a=sh/50;for(let j=1;j<h-1;j++)for(let i=1;i<w-1;i++){const p=(j*w+i)*4;if(!o[p+3])continue;const pl=p-4,pr=p+4,pu=p-w*4,pd=p+w*4;for(let ch=0;ch<3;ch++){const v=o[p+ch],l=o[pl+3]?o[pl+ch]:v,r=o[pr+3]?o[pr+ch]:v,u=o[pu+3]?o[pu+ch]:v,dn=o[pd+3]?o[pd+ch]:v;d[p+ch]=v+a*(v-(l+r+u+dn)/4)}}}})}
+/* contorno colorato attorno al soggetto (effetto sticker) */
+function outline(c,t,col){const o=cv(c.width+t*2,c.height+t*2),x=o.getContext('2d'),m=cv(c.width,c.height),y=m.getContext('2d');y.drawImage(c,0,0);y.globalCompositeOperation='source-in';y.fillStyle=col;y.fillRect(0,0,m.width,m.height);
+const n=Math.max(24,t*6);for(let i=0;i<n;i++){const a=i/n*Math.PI*2;x.drawImage(m,t+Math.cos(a)*t,t+Math.sin(a)*t);if(t>3)x.drawImage(m,t+Math.cos(a)*t/2,t+Math.sin(a)*t/2)}x.drawImage(c,t,t);return o}
+function trim(c){const w=c.width,h=c.height,d=c.getContext('2d').getImageData(0,0,w,h).data;let x0=w,y0=h,x1=-1,y1=-1;for(let j=0;j<h;j++)for(let i=0;i<w;i++)if(d[(j*w+i)*4+3]>16){if(i<x0)x0=i;if(i>x1)x1=i;if(j<y0)y0=j;if(j>y1)y1=j}if(x1<0)return c;const o=cv(x1-x0+1,y1-y0+1);o.getContext('2d').drawImage(c,-x0,-y0);return o}
+function proc(){const g=id=>$('#'+id),n=id=>+g(id).value||0,l=Math.max(0,n('el')),t=Math.max(0,n('et')),r=Math.max(0,n('eri')),b=Math.max(0,n('eb')),cw=Math.max(1,WS.width-l-r),ch=Math.max(1,WS.height-t-b);
+let c=cv(cw,ch);c.getContext('2d',{willReadFrequently:true}).drawImage(WS,l,t,cw,ch,0,0,cw,ch);
+if(g('erm').checked)rmbg(c,n('etl'),g('eg').checked,KC);
+if(n('esp'))keepMain(c,n('esp')/100);if(n('eer'))erode(c,n('eer'));if(n('eso'))soft(c,n('eso'));
+filt(c,n('ebr'),n('eco'),n('esa'),n('esh'));
+const a=n('er')*Math.PI/180,s=Math.abs(Math.sin(a)),k=Math.abs(Math.cos(a)),nw=Math.ceil(cw*k+ch*s),nh=Math.ceil(cw*s+ch*k),c2=cv(nw,nh),y=c2.getContext('2d');
+y.translate(nw/2,nh/2);y.rotate(a);y.scale(g('ef').checked?-1:1,g('ev').checked?-1:1);y.drawImage(c,-cw/2,-ch/2);c=c2;
+if(g('eac').checked)c=trim(c);
+const mg=n('emg');if(mg>0){const c5=cv(c.width+mg*2,c.height+mg*2);c5.getContext('2d').drawImage(c,mg,mg);c=c5}
+const ot=n('eot');if(ot>0)c=outline(c,ot,g('ecl').value);
+const sc=Math.max(.05,n('es')/100);if(sc!=1){const c3=cv(Math.max(1,Math.round(c.width*sc)),Math.max(1,Math.round(c.height*sc))),z=c3.getContext('2d');z.imageSmoothingQuality='high';z.drawImage(c,0,0,c3.width,c3.height);c=c3}
+const ox=n('ex'),oy=n('ey');if(ox||oy){const c4=cv(c.width+Math.abs(ox),c.height+Math.abs(oy));c4.getContext('2d').drawImage(c,Math.max(ox,0),Math.max(oy,0));c=c4}
+const mx=n('emx');if(mx>0&&Math.max(c.width,c.height)>mx){const k2=mx/Math.max(c.width,c.height),c6=cv(Math.max(1,Math.round(c.width*k2)),Math.max(1,Math.round(c.height*k2))),z=c6.getContext('2d');z.imageSmoothingQuality='high';z.drawImage(c,0,0,c6.width,c6.height);c=c6}
+return c}
+function eout(c){if($('#efm').value=='webp'){const u=c.toDataURL('image/webp',(+$('#eq').value||85)/100);if(u.startsWith('data:image/webp'))return u}return c.toDataURL('image/png')}
+function rf(){const v=$('#ec');if(!v)return;const bg=$('#ebg').value;v.style.background=bg=='c'?'':bg;
+if(TM!='pv'){v.width=WS.width;v.height=WS.height;v.getContext('2d').drawImage(WS,0,0);v.style.touchAction='none';$('#ei').textContent=TM=='pk'?'Tocca sull’immagine il colore dello sfondo da togliere':'Trascina sull’immagine: cancella o ripristina';return}
+v.style.touchAction='';const c=proc();LC=c;v.width=c.width;v.height=c.height;v.getContext('2d').drawImage(c,0,0);$('#ei').textContent=c.width+' × '+c.height+' px';
+clearTimeout(ST);ST=setTimeout(()=>{if(LC!==c||!$('#ei'))return;const u=eout(c);$('#ei').textContent=c.width+' × '+c.height+' px · circa '+Math.round(u.length*.75/1024)+' KB'},450)}
+const rq=()=>{if(RQ)return;RQ=requestAnimationFrame(()=>{RQ=0;rf()})};
+function setM(m){TM=m;E.querySelectorAll('[data-e^=m]').forEach(b=>b.classList.toggle('g',b.dataset.e!='m'+m));if(m=='br'){const d=$('#dbr');if(d)d.open=true}rf()}
+const pt=e=>{const c=$('#ec'),r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]};
+function brush(e){const[x,y]=pt(e),s=+$('#ebs').value,z=WS.getContext('2d'),er=$('#ebt').value=='e',st=(px,py)=>{z.save();z.beginPath();z.arc(px,py,s,0,7);z.clip();z.clearRect(px-s,py-s,2*s,2*s);if(!er)z.drawImage(ES,0,0,WS.width,WS.height);z.restore()};
+if(LP){const dx=x-LP[0],dy=y-LP[1],n=Math.ceil(Math.hypot(dx,dy)/(s/3))||1;for(let i=1;i<=n;i++)st(LP[0]+dx*i/n,LP[1]+dy*i/n)}else st(x,y);LP=[x,y];rf()}
+function ed(p){const I=im(get(p));if(!I||!I.complete)return;EM='i';EP=p;ES=I;if(!ORIG[p])ORIG[p]=get(p);KC=null;TM='pv';
+const k0=Math.min(1,2000/Math.max(I.naturalWidth,I.naturalHeight));WS=cv(Math.max(1,Math.round(I.naturalWidth*k0)),Math.max(1,Math.round(I.naturalHeight*k0)));WS.getContext('2d',{willReadFrequently:true}).drawImage(I,0,0,WS.width,WS.height);
+const bs=Math.max(8,Math.round(Math.max(WS.width,WS.height)/40)),bm=Math.round(Math.max(WS.width,WS.height)/4);
+E.hidden=false;E.innerHTML=`<div class='bx'><h3 style='margin-top:0'>Modifica immagine</h3>
+<div class='pvw'><div class='r'><button class='b' data-e='mpv'>👁 Anteprima</button><button class='b g' data-e='mpk'>💧 Contagocce</button><button class='b g' data-e='mbr'>🖌 Pennello</button></div><canvas id='ec'></canvas><p class='n' id='ei'></p></div>
+<label>Sfondo dell’anteprima<select id='ebg'><option value='c'>Scacchiera</option><option value='#ffffff'>Bianco</option><option value='#000000'>Nero</option><option value='#ff59c8'>Rosa</option><option value='#3dd16a'>Verde</option></select></label>
+<details open><summary>Sfondo</summary>${ck('Rimuovi lo sfondo automaticamente','erm',1)}<div class='r'><span class='n'>Colore da togliere:</span><span id='ekc' class='sw'>auto</span><button class='b g' data-e='kc0'>Auto</button></div><p class='n'>Per scegliere il colore tocca “Contagocce” e poi l’immagine.</p>${rg('Tolleranza (alza se resta del bianco)','etl',50,0,150)}${ck('Togli il colore anche all’interno','eg')}${rg('Elimina macchie piccole (%)','esp',0,0,50)}${rg('Restringi il bordo (px)','eer',0,0,8)}${rg('Ammorbidisci il bordo (px)','eso',0,0,8)}</details>
+<details id='dbr'><summary>Pennello (ritocco a mano)</summary><label>Strumento<select id='ebt'><option value='e'>Cancella</option><option value='r'>Ripristina l’originale</option></select></label>${rg('Grandezza pennello','ebs',bs,3,bm)}<p class='n'>Premi “Pennello” in alto e disegna sull’immagine. Il resto delle modifiche si applica dopo.</p></details>
+<details><summary>Ritaglio e posizione</summary><label>Ritaglio in px (sinistra · alto · destra · basso)</label><div class='q'>${['el','et','eri','eb'].map(a=>`<input type='number' id='${a}' value='0' min='0'>`).join('')}</div><button class='b g' data-e='sq'>Quadrato al centro</button>${ck('Taglia i bordi vuoti e centra il soggetto','eac',1)}${nb('Margine attorno (px)','emg',0)}${rg('Rotazione (gradi)','er',0,-180,180)}<button class='b g' data-e='l'>↺ 90°</button><button class='b g' data-e='r'>↻ 90°</button>${ck('Specchia in orizzontale','ef')}${ck('Capovolgi in verticale','ev')}${rg('Dimensione %','es',100,10,200)}<label>Sposta (px, X · Y)</label><div class='r'><input type='number' id='ex' value='0' style='width:45%'><input type='number' id='ey' value='0' style='width:45%'></div></details>
+<details><summary>Colori</summary>${rg('Luminosità','ebr',0,-100,100)}${rg('Contrasto','eco',0,-100,100)}${rg('Saturazione %','esa',100,0,250)}${rg('Nitidezza','esh',0,0,100)}</details>
+<details><summary>Contorno (sticker)</summary>${rg('Spessore (px)','eot',0,0,30)}<label>Colore<br><input type='color' id='ecl' value='#ffffff'></label></details>
+<details><summary>Esporta e peso del file</summary><label>Lato massimo<select id='emx'><option value='0'>Originale</option><option value='2048'>2048 px</option><option value='1024'>1024 px</option><option value='512'>512 px</option><option value='256'>256 px</option></select></label><label>Formato<select id='efm'><option value='png'>PNG (massima qualità)</option><option value='webp'>WebP (file molto più leggero)</option></select></label>${rg('Qualità WebP','eq',85,10,100)}<p class='n'>Il numero di KB sotto l’anteprima ti dice quanto pesa l’immagine: il file della mod può arrivare a 20 MB.</p></details>
+<div class='sb'><button class='b' data-e='ok'>Applica</button><button class='b g' data-e='z'>Azzera</button><button class='b g' data-e='orig'>↩ Originale</button><button class='b g' data-e='x'>Chiudi</button></div></div>`;
+const C=$('#ec');C.onpointerdown=e=>{if(TM=='pv')return;e.preventDefault();if(TM=='pk'){const[x,y]=pt(e),d=WS.getContext('2d').getImageData(Math.max(0,Math.min(WS.width-1,x|0)),Math.max(0,Math.min(WS.height-1,y|0)),1,1).data;if(d[3]<16)return;KC=[d[0],d[1],d[2]];$('#erm').checked=true;$('#ekc').style.background=`rgb(${KC})`;$('#ekc').textContent='';setM('pv');return}DR=1;LP=null;try{C.setPointerCapture(e.pointerId)}catch(er){}brush(e)};
+C.onpointermove=e=>{if(DR)brush(e)};C.onpointerup=C.onpointercancel=()=>{DR=0;LP=null};rf()}
+/* ---------- editor audio ---------- */
+const ab64=u=>{const n=atob(u.split(',')[1]),y=new Uint8Array(n.length);for(let i=0;i<y.length;i++)y[i]=n.charCodeAt(i);return y.buffer};
+function astop(){try{APL&&APL.stop()}catch(e){}APL=null}
+async function arend(sr){const g=id=>+$('#'+id).value||0,a=g('as'),b=Math.max(a+.05,g('ae')),du=b-a,OC=window.OfflineAudioContext||window.webkitOfflineAudioContext,oc=new OC(1,Math.max(1,Math.ceil(du*sr)),sr),s=oc.createBufferSource(),G=oc.createGain();s.buffer=AB;let v=g('av')/100;
+if($('#an').checked){let pk=0;for(let c=0;c<AB.numberOfChannels;c++){const d=AB.getChannelData(c),i1=Math.min(d.length,Math.ceil(b*AB.sampleRate));for(let i=Math.floor(a*AB.sampleRate);i<i1;i++){const q=Math.abs(d[i]);if(q>pk)pk=q}}if(pk>0)v=v*.95/pk}
+const fi=Math.min(g('afi'),du),fo=Math.min(g('afo'),du);
+if(fi>0){G.gain.setValueAtTime(0,0);G.gain.linearRampToValueAtTime(v,fi)}else G.gain.setValueAtTime(v,0);
+if(fo>0){G.gain.setValueAtTime(v,Math.max(fi,du-fo));G.gain.linearRampToValueAtTime(0,du)}
+s.connect(G);G.connect(oc.destination);s.start(0,a,du);
+return new Promise((ok,no)=>{const p=oc.startRendering();if(p&&p.then)p.then(ok,no);else oc.oncomplete=e=>ok(e.renderedBuffer)})}
+function awav(r){const d=r.getChannelData(0),sr=r.sampleRate,w=new DataView(new ArrayBuffer(44+d.length*2)),W=(o,s)=>{for(let i=0;i<s.length;i++)w.setUint8(o+i,s.charCodeAt(i))};
+W(0,'RIFF');w.setUint32(4,36+d.length*2,true);W(8,'WAVEfmt ');w.setUint32(16,16,true);w.setUint16(20,1,true);w.setUint16(22,1,true);w.setUint32(24,sr,true);w.setUint32(28,sr*2,true);w.setUint16(32,2,true);w.setUint16(34,16,true);W(36,'data');w.setUint32(40,d.length*2,true);
+for(let i=0;i<d.length;i++)w.setInt16(44+i*2,Math.max(-1,Math.min(1,d[i]))*32767,true);return rd(Object.assign(new Blob([w.buffer]),{name:'a.wav'}))}
+function awv(){const c=$('#aw');if(!c||!AB)return;const x=c.getContext('2d'),w=c.width,h=c.height,d=AB.getChannelData(0),k=Math.max(1,Math.floor(d.length/w));x.clearRect(0,0,w,h);x.fillStyle='#1e2a6b';
+for(let i=0;i<w;i++){let m=0;for(let j=i*k;j<(i+1)*k&&j<d.length;j+=Math.max(1,k>>6)){const q=Math.abs(d[j]);if(q>m)m=q}x.fillRect(i,h/2-m*h/2,1,Math.max(1,m*h))}
+const D=AB.duration,a=+$('#as').value/D*w,b=+$('#ae').value/D*w;x.fillStyle='rgba(0,0,40,.35)';x.fillRect(0,0,a,h);x.fillRect(b,0,w-b,h)}
+function aupd(t){const a=$('#as'),b=$('#ae');if(+b.value<+a.value+.05){if(t==a)a.value=Math.max(0,+b.value-.05);else b.value=Math.min(AB.duration,+a.value+.05)}
+for(const o of[a,b]){const s=$('#'+o.id+'v');if(s)s.textContent=o.value}$('#ai').textContent='Durata risultante: '+(+b.value-+a.value).toFixed(2)+' s';awv()}
+async function aed(p){const u=get(p);if(!u)return;EM='a';EP=p;if(!ORIG[p])ORIG[p]=u;E.hidden=false;E.innerHTML=`<div class='bx'><h3 style='margin-top:0'>Modifica audio</h3><p class='n'>Carico…</p><button class='b g' data-e='x'>Chiudi</button></div>`;
+try{const AC=window.AudioContext||window.webkitAudioContext;AX=AX||new AC();const q=ab64(u);AB=await new Promise((ok,no)=>{const r=AX.decodeAudioData(q,ok,no);if(r&&r.then)r.then(ok,no)})}catch(er){E.hidden=true;return alert('Non riesco a leggere questo audio')}
+const D=+AB.duration.toFixed(2);
+E.innerHTML=`<div class='bx'><h3 style='margin-top:0'>Modifica audio</h3><canvas id='aw' width='540' height='90' style='background:#fff;width:100%'></canvas><p class='n' id='ai'></p>${rg('Inizio (s)','as',0,0,D,.01)}${rg('Fine (s)','ae',D,0,D,.01)}${rg('Volume %','av',100,0,400)}${ck('Alza al massimo senza distorcere (normalizza)','an')}${rg('Entrata graduale (s)','afi',0,0,Math.min(5,D),.05)}${rg('Uscita graduale (s)','afo',0,0,Math.min(5,D),.05)}<div class='sb'><button class='b g' data-e='ap'>▶ Ascolta</button><button class='b g' data-e='as'>■ Stop</button><button class='b' data-e='ao'>Applica</button><button class='b g' data-e='aor'>↩ Originale</button><button class='b g' data-e='x'>Chiudi</button></div></div>`;aupd()}
+/* ---------- atlante da più foto ---------- */
+async function mkAtlas(fl){fl.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));if(fl.length>256)fl=fl.slice(0,256);
+const H=Math.max(64,Math.min(1500,+prompt('Altezza in pixel del frame più alto (consigliato 300–500)','400')||0));if(!H)return;
+const bg=confirm('Tolgo lo sfondo da ogni foto?\nOK = sì · Annulla = no (le foto sono già trasparenti)');
+const cs=[];try{for(const f of fl){const I=await li(f),k=Math.min(1,1600/Math.max(I.naturalWidth,I.naturalHeight)),c=cv(Math.max(1,Math.round(I.naturalWidth*k)),Math.max(1,Math.round(I.naturalHeight*k)));c.getContext('2d',{willReadFrequently:true}).drawImage(I,0,0,c.width,c.height);if(bg)rmbg(c,50,false,null);cs.push(trim(c))}}catch(er){return alert('Una delle immagini non è leggibile')}
+let mh=1;for(const c of cs)mh=Math.max(mh,c.height);const s=H/mh,P=6,MW=4096,F=[],pl=[];let x=P,y=P,rh=0;
+for(const c of cs){const w=Math.max(1,Math.round(c.width*s)),h=Math.max(1,Math.round(c.height*s));if(x+w+P>MW&&x>P){x=P;y+=rh+P;rh=0}pl.push([x,y,w,h,c]);F.push([x,y,w,h,w/2]);x+=w+P;rh=Math.max(rh,h)}
+let aw=0;for(const q of pl)aw=Math.max(aw,q[0]+q[2]);const A=cv(aw+P,y+rh+P),z=A.getContext('2d');z.imageSmoothingQuality='high';for(const q of pl)z.drawImage(q[4],q[0],q[1],q[2],q[3]);
+M.atlas=A.toDataURL('image/png');M.frames=F;if(!M.anim.idle)M.anim.idle='0';draw();alert('Atlante creato con '+F.length+' frame, nell’ordine dei nomi dei file. Controlla ora le animazioni (indici da 0 a '+(F.length-1)+').')}
+/* ---------- gestione eventi ---------- */
+Object.assign(ACT,{eda(b){aed(b.dataset.p)},mf(){$('#mf').click()}});
+mn.addEventListener('change',async e=>{const t=e.target;if(t.id=='imp')ORIG={};if(t.dataset&&t.dataset.i)delete ORIG[t.dataset.i];if(t.id=='mf'&&t.files&&t.files.length){const fl=[...t.files];t.value='';await mkAtlas(fl)}});
+mn.addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b.dataset.x)delete ORIG[b.dataset.x]});
+E.oninput=e=>{const t=e.target;if(t.type=='range'){const o=$('#'+t.id+'v');if(o)o.textContent=t.value}if(EM=='a')aupd(t);else rq()};
+E.onclick=async e=>{const b=e.target.closest('button'),a=b&&b.dataset.e;if(!a)return;
+if(a=='x'){astop();E.hidden=true;return}
+if(EM=='a'){if(a=='ap'){astop();if(AX.resume)AX.resume();const r=await arend(22050);APL=AX.createBufferSource();APL.buffer=r;APL.connect(AX.destination);APL.start()}
+else if(a=='as')astop();
+else if(a=='aor'){if(confirm('Tornare all’audio originale?')){set(EP,ORIG[EP]);astop();E.hidden=true;draw()}}
+else if(a=='ao'){b.disabled=true;try{const du=+$('#ae').value-+$('#as').value,r=await arend(du<=30?44100:22050),u=await awav(r);if(!AUOK(u)){b.disabled=false;return alert('Audio troppo lungo o pesante: accorcialo')}set(EP,u);astop();E.hidden=true;draw()}catch(er){b.disabled=false;alert('Non riesco a elaborare l’audio')}}return}
+if(a[0]=='m'&&a.length==3){setM(a.slice(1));return}
+if(a=='kc0'){KC=null;$('#ekc').style.background='';$('#ekc').textContent='auto';rf()}
+else if(a=='z')ed(EP);
+else if(a=='orig'){if(confirm('Tornare alla foto originale?')){set(EP,ORIG[EP]);ed(EP);draw()}}
+else if(a=='sq'){const w=WS.width,h=WS.height,d=Math.abs(w-h),h1=d>>1,h2=d-h1,v=(id,x)=>$('#'+id).value=x;v('el',w>h?h1:0);v('eri',w>h?h2:0);v('et',h>w?h1:0);v('eb',h>w?h2:0);rf()}
+else if(a=='ok'){const c=proc(),u=eout(c);if($('#efm').value=='webp'&&!u.startsWith('data:image/webp'))alert('Questo browser non sa creare WebP: ho usato PNG.');set(EP,u);E.hidden=true;draw();if(EP=='atlas'&&M.frames.length)alert('L’atlante è cambiato: rileva di nuovo i frame.')}
+else if(a=='l'||a=='r'){const s=$('#er');s.value=((+s.value+(a=='r'?90:-90)+540)%360)-180;$('#erv').textContent=s.value;rf()}};
+draw();
+</script></body></html>
