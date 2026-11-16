@@ -86,7 +86,8 @@ const A={};for(const k in AN){const t=pa(M.anim[k]);if(!t.length)continue;if(!t.
 if(A.idle==null)e.push('Serve l’animazione “Fermo”');m.anim=A;
 if(M.scale!==''&&M.scale!=null){if(!(M.scale>=.2&&M.scale<=1.5))e.push('Scala fuori dal range 0,2–1,5');m.scale=+M.scale}
 if(M.bax!==''&&M.bax!=null)m.bax=+M.bax;if(M.hide)m.skinShop=false;
-const au={};for(const k in AU)if(M.audio[k]){if(!AUOK(M.audio[k]))e.push('Audio non valido: '+AU[k]);au[k]=M.audio[k]}if(Object.keys(au).length)m.audio=au}
+}
+const au={};for(const k in AU)if(M.audio[k]){if(!AUOK(M.audio[k]))e.push('Audio non valido: '+AU[k]);au[k]=M.audio[k]}if(Object.keys(au).length)m.audio=au;
 const c={};for(const k of['v','f','s','h','img'])if(M.coin[k]!=null&&M.coin[k]!=='')c[k]=M.coin[k];
 if(c.v!=null&&!(Number.isInteger(c.v)&&c.v>=1&&c.v<=10))e.push('Valore monete: intero da 1 a 10');
 for(const k of['f','s','h'])if(c[k]&&!HX.test(c[k]))e.push('Colore moneta non valido');
@@ -97,7 +98,7 @@ if(o.c&&!(o.c.length==2&&o.c.every(x=>HX.test(x))))e.push('Colori boss non valid
 if(o.snd&&!AUOK(o.snd))e.push('Audio boss non valido: '+nm);for(const f of BF)if(o[f[0]]!=null){const v=o[f[0]];if(!(Number.isFinite(v)&&v>=f[2]&&v<=f[3]&&(!f[4]||Number.isInteger(v))))e.push(nm+': '+f[1]+' fuori dai limiti ('+f[2]+'–'+f[3]+')')}bb[k]=o}
 if(Object.keys(bb).length)m.bosses=bb;
 const ee={};for(const k in EN)if(M.enemies[k]&&M.enemies[k].img)ee[k]={img:M.enemies[k].img};if(Object.keys(ee).length)m.enemies=ee;
-if(!m.atlas&&!m.coin&&!m.bosses&&!m.enemies)e.push('La mod non contiene nulla: personalizza almeno una scheda');
+if(!m.atlas&&!m.coin&&!m.bosses&&!m.enemies&&!m.audio)e.push('La mod non contiene nulla: personalizza almeno una scheda');
 const j=JSON.stringify(m).replace(/</g,'\\u003c'),t=esc(m.name),I=(u,c)=>u?`<img class="${c}" src="${u}" alt="">`:'';
 const html=`<!doctype html><html lang="it"><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title><style>body{margin:0;padding:24px;font:600 16px system-ui,sans-serif;background:#3a74f5;color:#fff;text-align:center}img{max-width:min(90vw,360px);height:auto}.c{max-width:420px;margin:auto}.s{height:110px;margin:6px;width:auto}</style></head><body><div class="c">${I(m.logo,'')}${I(m.big,'s')}<h2>${t} · ${esc(m.version)}</h2><p>Questo è un file mod per Glam Run.<br>Aprilo dal gioco con il tasto <b>Mod</b> (in alto a sinistra nel menu) e scegli questo file.</p>${I(m.coin&&m.coin.img,'s')}</div><script type="application/json" id="glam-mod">${j}<\/script></body></html>`;
 if(html.length>2e9)e.push('File troppo grande: usa immagini o audio più piccoli');
